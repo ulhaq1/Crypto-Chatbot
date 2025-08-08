@@ -36,7 +36,6 @@ This project merges a modern chat interface with intelligent backend logic to cr
 
 # Preview
 
-# Preview
 
 ![TradeBot Chat Interface](https://raw.githubusercontent.com/ulhaq1/Crypto-Chatbot/a639a830abcbd485c7dd94598da35db9d6d8d0d0/screenshotchat.png)  
 _(Live screenshot of the chat interface on desktop view)_
