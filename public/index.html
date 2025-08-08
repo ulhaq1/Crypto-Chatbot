@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>TradeBot Advisor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.5/babel.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            min-height: 100vh;
+            background: url('bg_image.jpg') no-repeat center center;
+            background-size: cover;
+            padding-right: 10rem;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .header-bar {
+            background: #FFD700;
+            color: black;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .connection-status {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.85;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .message-block {
+            max-width: 75%;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .message-user {
+            background-color: #FFD700;
+            color: white;
+            border-radius: 16px 16px 0 16px;
+            padding: 0.6rem 1rem;
+            align-self: flex-end;
+        }
+        .message-bot {
+            background-color: #eaeaea;
+            border-radius: 16px 16px 16px 0;
+            align-self: flex-start;
+            padding: 0.6rem 1rem;
+        }
+        .message-time {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 3px;
+            text-align: right;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #eaeaea;
+            border-radius: 50%;
+            animation: blink 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+        .chat-input {
+            border-top: 1px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #fff;
+        }
+        .chat-input form {
+            display: flex;
+            flex: 1;
+        }
+        .message-input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            outline: none;
+        }
+        .message-input:focus {
+            background-color: #FFD700;
+        }
+        .send-btn {
+            background-color: #FFD700;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 20px;
+            color: black;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .send-btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        .error-msg {
+            background: #ff4c4c;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbot-root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const ChatMessage = ({ text, fromUser, time }) => (
+            <div className={`message-block ${fromUser ? 'message-user' : 'message-bot'}`}>
+                <div dangerouslySetInnerHTML={{ __html: text }} />
+                <div className="message-time">
+                    {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                </div>
+            </div>
+        );
+
+        const TypingDots = () => (
+            <div className="message-block message-bot">
+                <div className="typing-indicator">
+                    <div className="typing-dot"></div>
+                    <div className="typing-dot"></div>
+                    <div className="typing-dot"></div>
+                </div>
+            </div>
+        );
+
+        const HeaderBar = ({ status }) => (
+            <div className="header-bar">
+                <div>Crypto Chatbot by BotBuilders</div>
+                <div className="connection-status">{status}</div>
+            </div>
+        );
+
+        const InputArea = ({ onSend, disabled }) => {
+            const [text, setText] = useState('');
+            const submit = (e) => {
+                e.preventDefault();
+                if (!disabled && text.trim()) {
+                    onSend(text.trim());
+                    setText('');
+                }
+            };
+            return (
+                <div className="chat-input">
+                    <form onSubmit={submit}>
+                        <input
+                            className="message-input"
+                            placeholder="Ask about crypto prices or trading strategies..."
+                            value={text}
+                            onChange={e => setText(e.target.value)}
+                            disabled={disabled}
+                            autoComplete="off"
+                        />
+                        <button className="send-btn" type="submit" disabled={disabled || !text.trim()}>
+                            <i className="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            );
+        };
+
+        const TradeBot = () => {
+            const [messages, setMessages] = useState([
+                { id: 1, text: "Welcome! To get started just type in 'start' or 'help' and I'll tell you what I'm capable of", fromUser: false, time: new Date() }
+            ]);
+            const [typing, setTyping] = useState(false);
+            const [status, setStatus] = useState('Connecting...');
+            const [socket, setSocket] = useState(null);
+            const [error, setError] = useState(null);
+            const messagesEnd = useRef(null);
+
+            const scrollBottom = () => {
+                messagesEnd.current?.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            useEffect(scrollBottom, [messages, typing]);
+
+            useEffect(() => {
+                const sock = io('http://localhost:3000', { transports: ['websocket', 'polling'] });
+                setSocket(sock);
+
+                sock.on('connect', () => {
+                    setStatus('Connected');
+                    setError(null);
+                });
+                sock.on('disconnect', () => setStatus('Disconnected'));
+                sock.on('connect_error', () => {
+                    setStatus('Connection Error');
+                    setError('Could not connect to server. Please check your backend.');
+                });
+                sock.on('bot_message', msg => {
+                    setTyping(false);
+                    setMessages(prev => [...prev, { id: Date.now(), text: msg, fromUser: false, time: new Date() }]);
+                });
+                sock.on('error', () => {
+                    setTyping(false);
+                    setMessages(prev => [...prev, { id: Date.now(), text: "An error occurred. Please try again.", fromUser: false, time: new Date() }]);
+                });
+
+                return () => sock.disconnect();
+            }, []);
+
+            const sendMessage = (msg) => {
+                setMessages(prev => [...prev, { id: Date.now(), text: msg, fromUser: true, time: new Date() }]);
+                setTyping(true);
+                if (socket) socket.emit('user_message', msg);
+                else {
+                    setTyping(false);
+                    setMessages(prev => [...prev, { id: Date.now(), text: "Disconnected. Refresh to reconnect.", fromUser: false, time: new Date() }]);
+                }
+            };
+
+            return (
+                <div className="chat-container">
+                    <HeaderBar status={status} />
+                    {error && <div className="error-msg">{error}</div>}
+                    <div className="chat-messages">
+                        {messages.map(m => (
+                            <ChatMessage key={m.id} text={m.text} fromUser={m.fromUser} time={m.time} />
+                        ))}
+                        {typing && <TypingDots />}
+                        <div ref={messagesEnd} />
+                    </div>
+                    <InputArea onSend={sendMessage} disabled={!socket || status !== 'Connected'} />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<TradeBot />, document.getElementById('chatbot-root'));
+    </script>
+</body>
+</html>

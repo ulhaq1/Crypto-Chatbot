@@ -1,0 +1,156 @@
+{
+    "intents": [
+      {
+        "tag": "greeting_introduction",
+        "keywords": ["hello", "hi", "hey", "what's up", "good evening", "good morning", "hallo", "hola", "yo", "hiya", "sup", "good day", "greetings"],
+        "answer": ["Hello, I'm your Crypto and Stocks Investment Buddy. How can I help you?", "Hey! Ready to jump into the investment world?"]
+      },
+      
+      {
+        "tag": "crypto advice",
+        "keywords": [
+          "how to buy", "how to begin", "where to buy bitcoin", "how to buy crypto", "best place for crypto trading", "crypto buying guide", "where can I get ethereum",
+          "how do I buy", "buying bitcoin", "get crypto", "purchase crypto", "buy ethereum", "start crypto trading", "which platforms", "platform", "recommend a platform", "suggest a platform", "which app", "best place for trading", "place to trade", "where to trade", "binance or coinbase"
+        ],
+        "answer": ["To buy crypto, start by signing up on a trusted exchange like Binance, Coinbase, or Bitpanda. After verifying your identity, you can deposit money using a bank card, transfer, or PayPal (if supported). Once funded, choose a cryptocurrency (like Bitcoin or Ethereum) and make your purchase. For safety, store your crypto in a secure wallet. For more information on types of wallets, Just type 'crypto wallets'. Or if you want the relevant links for exchanges type 'platform links' or 'exchange links'"]
+      },
+      
+      {
+        "tag": "crypto wallet",
+        "keywords": [ "crypto wallet", "how to store", "where to store", "store"],
+        "answer": [" To store crypto safely, use wallets like Trust Wallet or MetaMask (hot wallets) and Ledger or Trezor (cold wallets). Hot wallets are connected to the internet and convenient for daily use, while cold wallets stay offline, offering better protection for long-term storage. Unlike crypto exchange accounts (e.g., Binance or Coinbase), which are custodial and controlled by the platform, wallets are non-custodial—meaning you control your private keys and have full ownership of your funds. This way, you can securely manage your crypto assets without relying on third-party services. Want me to provide links for offline and online links? If so type 'wallet links' or 'show wallet links'"]
+      },
+      {
+        "tag": "exchange links",
+        "keywords": ["exchange links", "platform links", "platform link", "link for platform", "link for exchange", "exchange link"],
+        "answer": [
+          "Here are the exchange links:\n\n<b>Exchanges:</b>\n<a href=\"https://www.binance.com/\" target=\"_blank\">Binance</a> | <a href=\"https://www.coinbase.com/\" target=\"_blank\">Coinbase</a> | <a href=\"https://www.bitpanda.com/\" target=\"_blank\">Bitpanda</a>"
+        ]
+      },
+      {
+        "tag": "crypto_wallet_links",
+        "keywords": [ "wallet links", "show wallet links", "give me wallet links", "wallet download", "wallet app link"],
+        "answer": [
+          "Here are the wallet links:\n\n<b>Hot Wallets:</b>\n<a href=\"https://trustwallet.com/\" target=\"_blank\">Trust Wallet</a> | <a href=\"https://metamask.io/\" target=\"_blank\">MetaMask</a>\n\n<b>Cold Wallets:</b>\n<a href=\"https://www.ledger.com/\" target=\"_blank\">Ledger</a> | <a href=\"https://trezor.io/\" target=\"_blank\">Trezor</a>"
+        ]
+      },
+  
+      {
+        "tag": "crypto_price",
+        "keywords": [
+          "price of", "how much is", "current price of", "what is", "what's is", "value of", "cost of", "worth of",
+          "whats is the price of", "live price of", "tell me the price of", "crypto price for"
+        ],
+        "answer": ["Current price of [CRYPTO_NAME] is [API_CALL:COINGECKO_PRICE]."]
+      },
+      {
+        "tag": "cryptoprice_direct",
+        "keywords": ["price", "crypto price", "show me price", "check price", "give price", "what's the price", "get rate"],
+        "answer": ["Cool, which crypto are you asking about?", "Tell me the coin name so I can check the live rate for you."]
+      },
+      {
+        "tag": "crypto_name_only",
+        "keywords": ["bitcoin", "ethereum", "eth", "solana", "sol", "bnb", "ada", "cardano", "doge", "dogecoin", "matic", "shiba", "shib", "tron", "trx", "litecoin", "ltc", "xrp", "dot", "polkadot", "link", "chainlink", "apt", "aptos", "arb", "arbitrum", "pepe", "ton", "toncoin", "near", "near protocol"],
+        "answer": ["Current rate of [CRYPTO_NAME] is [API_CALL:COINGECKO_PRICE]."]
+      },
+      {
+        "tag": "help",
+        "keywords": [
+          "help", "what can u do", "how to", "how does this work", "commands", "what can you do", "assist me", "functions", "how do you work", "options", "features", "list", "support", "start"
+        ],
+        "answer": [
+          "I can show the live real time prices for cryptocurrencies. Try asking 'price of bitcoin' or just type 'eth' or 'sol'.",
+          "I can tell you which coins are trending right now. Try asking 'what's trending'.",
+          "I can give you a global crypto market overview. Just type 'market update' or 'global market'.",
+          "I can help you build a custom crypto portfolio. Just say 'build portfolio' and tell me your budget.",
+          "I can give tips for beginners like how to start investing or manage risk. Ask me things like 'is it risky?' or 'crypto strategy'.",
+          "I can recommend platforms for trading like Binance or Coinbase. Ask 'where to trade' or 'how to buy crypto'.",
+          "I can suggest safe wallets like MetaMask or Coinbase Wallet. Try asking 'how to store crypto'.",
+          "I can explain crypto basics like 'what's crypto' or 'how does Blockchain work'.",
+          "I can remember your investment preferences and build based on that. Type 'portfolio' to get started",
+          "Just say 'help' anytime and I'll show you this list again."
+        ]
+      },
+      {
+        "tag": "global_market_update",
+        "keywords": [
+          "market update", "global market", "crypto market status", "market condition", "how is the market", "market summary",
+          "overall market", "global stats", "market performance", "current market situation", "global crypto condition",
+          "market data", "market overview"
+        ],
+        "answer": ["Market's looking like this:\n[API_CALL:COINGECKO_MARKET_UPDATE]", "Here's the latest — global snapshot:\n[API_CALL:COINGECKO_MARKET_UPDATE]", "Quick check: [API_CALL:COINGECKO_MARKET_UPDATE]"]
+      },
+      {
+        "tag": "trending_cryptos",
+        "keywords": [
+          "trending", "hot coins", "popular crypto", "top coins now", "what's trending", "latest hot coins", "which cryptos are trending",
+          "what's hot", "which coins are hot", "top trending", "trending now", "popular coins", "buzzing coins"
+        ],
+        "answer": ["These coins trending right now: [API_CALL:COINGECKO_TRENDING]", "What's hot now:\n[API_CALL:COINGECKO_TRENDING]", "Top of the buzz list:\n[API_CALL:COINGECKO_TRENDING]"]
+      },
+      {
+        "tag": "market_and_trends",
+        "keywords": [
+          "market update", "global market", "crypto market status", "market condition", "how is the market", "market summary", "overall market", "global stats",
+          "market performance", "current market situation", "global crypto condition", "market data", "market overview", "market trend", "trends", "what's trending",
+          "hot coins", "crypto trends", "is crypto up", "is bitcoin up", "latest hot coins", "which coins are trending", "what's hot", "which coins are hot",
+          "top trending", "trending now", "popular coins", "buzzing coins", "market news", "crypto report", "market updates", "trend", "popular", "hot",
+          "state of the market", "market", "how's the market", "crypto outlook", "today's crypto status", "update on market"
+        ],
+        "answer": ["Market view: [API_CALL:COINGECKO_MARKET_UPDATE] Trending ones rn: [API_CALL:COINGECKO_TRENDING]", "Looks like [API_CALL:COINGECKO_TRENDING] are the hot picks today. Also, [API_CALL:COINGECKO_MARKET_UPDATE]", "Latest update: [API_CALL:COINGECKO_MARKET_UPDATE] — check out coins like [API_CALL:COINGECKO_TRENDING]", "Live stats now:\n[API_CALL:COINGECKO_MARKET_UPDATE]\nHot coins:\n[API_CALL:COINGECKO_TRENDING]", "Bit of both:\n[API_CALL:COINGECKO_MARKET_UPDATE]\n→ [API_CALL:COINGECKO_TRENDING]"]
+      },
+      {
+        "tag": "clarification_followup",
+        "keywords": ["what do you mean", "not clear", "say again", "explain more", "could you clarify"],
+        "answer": ["Hmm okay im sorry yeah that mightve been a bit quick. Let me go through it again.", "Sure thing, here's a simpler take on it:", "I do understand that it wasn't super clear. Let me unpack it a bit."]
+      },
+      {
+        "tag": "crypto_basics",
+        "keywords": ["what is bitcoin", "crypto basics", "how does crypto work", "simple crypto"],
+        "answer": ["Bitcoin's digital currencys  in its literal form with no banks involved. Just people sending value directly. ", "Crypto is like digital money passed around on a shared ledger (called blockchain). No.middlemen. Does this clear it out or would you want me to further explain", "Blockchain is  like a giant notebook that everyone sees and nobody can erase. Would you want me to expand on my brieifng?"]
+      },
+      {
+        "tag": "crypto_investment_tips",
+        "keywords": ["should I invest", "crypto strategy", "is it risky", "how to invest smart", "beginner tips"],
+        "answer": ["I am just an advisor, I cannot gurantee you profits always. With that said, best to start small even $25 in BTC or ETH  and just watch how things move for a while.", "Pro tip: don't time the market. Just buy small amounts over time (DCA method).", "If you're new maybe hold off on meme coins for now. ETH, BTC, or even Solana are better places to begin."]
+      },
+      {
+        "tag": "portfolio builder",
+        "keywords": ["build portfolio", "portfolio plan", "crypto portfolio", "invest 100", "investing plan", "split my budget", "allocate funds", "investment mix", "coin allocation", "make a portfolio", "spread my money", "portfolio", "portfolio help", "crypto allocation", "protfolio"],
+        "answer": ["Sure let's build a simple portfolio. What's your total budget?", "Happy to help. How much are you looking to invest?", "Let's do it, how much are you willing to put in", "We can start with a basic portfolio, what is your total budget?"]
+      },
+      {
+        "tag": "portfolio budget response",
+        "keywords": ["1", "2", "10", "100", "200", "300", "500", "1000", "50", "25", "400", "250", "150", "75", "90"],
+        "answer": ["Got it, Any coin preferences? If not, I will divide automatically.", "Budget noted. Would you like to pick specific coins or leave it upto me?", "Cool, now tell me if you have any preferred coins. If not, I will handle that part."]
+      },
+      {
+        "tag": "portfolio preference response",
+        "keywords": ["no", "no preference", "none", "nope", "nah", "any", "suggest", "any coin", "you pick", "auto", "automatic", "suggest for me"],
+        "answer": ["Alright,  I will diversify between popular coins like Bitcoin, Doge, and Solana.", "Got it. I'll go with a mix of top cryptos like BTC, ETH, SOL or Doge.", "No problem. Diversifying across Bitcoin, Ethereum, and Solana."]
+      },
+      {
+        "tag": "portfolio custom coins",
+        "keywords": ["bitcoin", "btc", "ethereum", "eth", "solana", "sol", "doge", "bnb", "ada", "shiba", "matic", "dot", "link", "xrp", "arbitrum", "near", "litecoin"],
+        "answer": ["Nice. Let me split your budget across [CRYPTO_NAME] and generate a plan.", "Solid picks. Calculating your investment allocation now.", "Great choices. Here's how I will distribute it: [COIN ALLOCATION PLACEHOLDER]"]
+      },
+
+      {
+      "tag": "thanks",
+      "keywords": ["thanks", "thank you", "thx", "ty", "much appreciated", "appreciate it", "thank", "thankyou"],
+      "answer": ["You're welcome! Let me know how else I can help.", "Happy to help! Please tell how I can help you further", "Glad I could help!"]
+      },
+
+      {
+        "tag": "definition blockchain",
+        "keywords": ["define blockchain", "what's blockchain", "teach me blockchain", "what is blockchain", "blockchain", "blockchain explained"],
+        "answer": ["Blockchain is a tamper proof digital ledger that is a network of computers instead of in one central place. Every time you record a transaction or piece of data, it's bundled into a 'block' that carries a unique cryptographic fingerprint called a hash calculated from its own contents and the hash of the previous block. Before that block can be added the network's computers use a consensus process (like Proof of Work or Proof of Stake) to verify that all its transactions are valid. Once everyone agrees and the block is sealed in, altering its data would break the cryptographic links forward, so any tampering is instantly obvious.Because thousands of independent nodes each hold an identical copy of the chain and follow the same rules, there is no single point of control or failure—and no need for a middleman. This decentralized setup, combined with transparent verification and immutable records, gives you a secure, self-auditing system that anyone on the network can trust."]
+      },
+
+      {
+        "tag": "definition crypto",
+        "keywords": [ "crypto", "what's crypto", "definition of cryptocurrency", "define cryptocurrency"],
+        "answer": ["Cryptocurrency is a digital asset secured by cryptography and maintained on a decentralized blockchain, where transactions are grouped into blocks and validated by network participants through consensus (like Proof of Work or Proof of Stake). Instead of relying on banks or governments, crypto uses algorithms to control issuance , often with a capped supply, and to guarantee that once a transaction is recorded it can’t be altered without the entire network noticing. This combination of decentralized verification, transparent ledgers, and cryptographic security lets anyone send and receive value peer-to-peer, anywhere in the world, without needing a trusted intermediary. Type 'start' to begin"]
+      }
+    ]
+}
